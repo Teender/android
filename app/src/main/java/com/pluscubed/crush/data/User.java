@@ -1,10 +1,10 @@
 package com.pluscubed.crush.data;
 
-import com.facebook.AccessToken;
-import com.google.firebase.auth.FirebaseUser;
+import java.util.Map;
 
 public class User {
-    public String id;
-    public FirebaseUser user;
-    public AccessToken token;
+    public String name;
+    public String fbid;
+    public String picture;
+    public Map<String, Boolean> friends;
 }

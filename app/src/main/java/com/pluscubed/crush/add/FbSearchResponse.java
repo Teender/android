@@ -4,6 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 public class FbSearchResponse {
-    public List<User> data;
+    public List<FbUser> data;
     public Map<String, String> paging;
 }

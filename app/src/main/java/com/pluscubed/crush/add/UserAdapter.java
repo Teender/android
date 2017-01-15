@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     private final LayoutInflater layoutInflater;
-    private List<User> users;
+    private List<FbUser> users;
     private Context context;
 
     public UserAdapter(Context context) {
@@ -49,12 +49,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return users.get(position).id.hashCode();
     }
 
-    public void setUsers(List<User> newUsers) {
+    public void setUsers(List<FbUser> newUsers) {
         users = new ArrayList<>(newUsers);
         notifyDataSetChanged();
     }
 
-    public void addUsers(List<User> newUsers) {
+    public void addUsers(List<FbUser> newUsers) {
         int size = users.size();
     }
 
@@ -68,7 +68,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(User user) {
+        public void bind(FbUser user) {
             name.setText(user.name);
         }
     }

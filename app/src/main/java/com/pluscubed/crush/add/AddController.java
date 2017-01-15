@@ -80,7 +80,7 @@ public class AddController extends RefWatchingController {
 
     }*/
 
-    /*private void setUsers(List<User> data) {
+    /*private void setUsers(List<FbUser> data) {
         adapter.setUsers(data);
     }*/
 

@@ -1,6 +1,6 @@
 package com.pluscubed.crush.add;
 
-public class User {
+public class FbUser {
     public String name;
     public String id;
     public Picture picture;

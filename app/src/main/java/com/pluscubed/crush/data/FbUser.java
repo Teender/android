@@ -1,4 +1,4 @@
-package com.pluscubed.crush.add;
+package com.pluscubed.crush.data;
 
 public class FbUser {
     public String name;

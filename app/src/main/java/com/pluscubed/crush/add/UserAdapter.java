@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pluscubed.crush.R;
+import com.pluscubed.crush.data.FbUser;
 
 import java.util.ArrayList;
 import java.util.List;

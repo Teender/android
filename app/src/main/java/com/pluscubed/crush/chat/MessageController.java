@@ -2,6 +2,7 @@ package com.pluscubed.crush.chat;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.facebook.AccessToken;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,8 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.pluscubed.crush.R;
 import com.pluscubed.crush.base.RefWatchingController;
 import com.pluscubed.crush.data.ChatSession;
+import com.pluscubed.crush.data.DbUser;
 import com.pluscubed.crush.data.Message;
-import com.pluscubed.crush.data.User;
 import com.pluscubed.crush.utils.BundleBuilder;
 
 import butterknife.BindView;
@@ -46,16 +48,17 @@ public class MessageController extends RefWatchingController {
     private FirebaseUser firebaseUser;
     private AccessToken accessToken;
     private FirebaseRecyclerAdapter<Message, MessageViewHolder> adapter;
-    private User otherUser;
+    private DbUser otherUser;
     private String session;
     private DatabaseReference sessionRef;
+    private ChildEventListener childEventListener;
 
     public MessageController() {
         super();
     }
 
-    public MessageController(String session) {
-        this(new BundleBuilder(new Bundle()).putString("session", session).build());
+    public MessageController(String session, boolean hide) {
+        this(new BundleBuilder(new Bundle()).putString("session", session).putBoolean("hide", hide).build());
     }
 
     protected MessageController(Bundle args) {
@@ -74,7 +77,7 @@ public class MessageController extends RefWatchingController {
         firebaseUser = firebaseAuth.getCurrentUser();
         accessToken = AccessToken.getCurrentAccessToken();
 
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back_white_24dp, getActivity().getTheme()));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,18 +105,19 @@ public class MessageController extends RefWatchingController {
                         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if ((otherUser = dataSnapshot.getValue(User.class)) != null) {
+                                if (getView() != null) {
 
-                                } else {
-                                    otherUser = new User();
-                                    otherUser.name = userId.replace("%2E", ".");
+                                    if ((otherUser = dataSnapshot.getValue(DbUser.class)) == null) {
+                                        otherUser = new DbUser();
+                                        otherUser.name = userId.replace("%2E", ".");
+                                    }
+
+                                    otherUser.dbId = userId;
+
+                                    toolbar.setTitle(otherUser.name);
+
+                                    initAdapter();
                                 }
-
-                                otherUser.dbId = userId;
-
-                                toolbar.setTitle(otherUser.name);
-
-                                initAdapter();
                             }
 
                             @Override
@@ -138,11 +142,49 @@ public class MessageController extends RefWatchingController {
             message.timestamp = System.currentTimeMillis();
 
             sessionRef.push().setValue(message);
+            FirebaseDatabase.getInstance().getReference().child("chat").child(session).child("timestamp").setValue(message.timestamp);
+
+
+            editText.setText("");
         });
+    }
+
+    @Override
+    protected void onDetach(@NonNull View view) {
+        super.onDetach(view);
+
+        sessionRef.removeEventListener(childEventListener);
     }
 
     private void initAdapter() {
         Query messagesQuery = sessionRef.orderByChild("timestamp");
+
+        childEventListener = messagesQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                recyclerView.scrollToPosition(adapter.getItemCount());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         adapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(Message.class,
                 R.layout.list_message,
@@ -151,8 +193,8 @@ public class MessageController extends RefWatchingController {
 
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Message model, int position) {
-                viewHolder.bind(model, otherUser, ContextCompat.getDrawable(getActivity(), R.drawable.bg_message_left),
-                        ContextCompat.getDrawable(getActivity(), R.drawable.bg_message_right));
+                viewHolder.bind(getActivity(), model, otherUser, ContextCompat.getDrawable(getActivity(), R.drawable.bg_message_left),
+                        ContextCompat.getDrawable(getActivity(), R.drawable.bg_message_right), getArgs().getBoolean("hide"));
             }
         };
         recyclerView.setAdapter(adapter);

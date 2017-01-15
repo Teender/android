@@ -1,4 +1,4 @@
-package com.pluscubed.crush.base;
+package com.pluscubed.crush.utils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -44,8 +44,8 @@ public class MimicActivityChangeHandler extends AnimatorChangeHandler {
         if (isPush && to != null) {
             AnimatorSet set = new AnimatorSet();
 
-            Animator alpha = ObjectAnimator.ofFloat(to, View.ALPHA, 0, 1).setDuration(200);
-            alpha.setInterpolator(new DecelerateInterpolator(2.5f));
+            to.setAlpha(0);
+            to.animate().alpha(1).setDuration(200).setInterpolator(new DecelerateInterpolator(2.5f)).start();
 
             Animator translation = ObjectAnimator.ofFloat(to, View.TRANSLATION_Y, getYFraction(0.08f), 0).setDuration(350);
             translation.setInterpolator(new DecelerateInterpolator(2.5f));
@@ -60,15 +60,16 @@ public class MimicActivityChangeHandler extends AnimatorChangeHandler {
                 }
             });
 
-            set.playTogether(alpha, translation);
+            set.playTogether(translation);
 
-            // viewAnimators.add(ObjectAnimator.ofFloat(to, View.TRANSLATION_Y, to.getHeight(), 0));
             viewAnimators.add(set);
         } else if (!isPush && from != null) {
             AnimatorSet set = new AnimatorSet();
 
-            Animator alpha = ObjectAnimator.ofFloat(from, View.ALPHA, 1f, 0f).setDuration(150);
-            alpha.setInterpolator(new LinearInterpolator());
+            from.animate()
+                    .alpha(0).setDuration(150)
+                    .setInterpolator(new LinearInterpolator())
+                    .start();
 
             Animator translation = ObjectAnimator.ofFloat(from, View.TRANSLATION_Y, 0, getYFraction(0.08f)).setDuration(250);
             translation.setInterpolator(new AccelerateInterpolator(2.5f));
@@ -83,7 +84,7 @@ public class MimicActivityChangeHandler extends AnimatorChangeHandler {
                 }
             });
 
-            set.playTogether(alpha, translation);
+            set.playTogether(translation);
 
             viewAnimators.add(ObjectAnimator.ofFloat(from, View.TRANSLATION_Y, from.getHeight()));
         }

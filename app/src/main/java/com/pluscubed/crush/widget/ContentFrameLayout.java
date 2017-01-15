@@ -1,4 +1,4 @@
-package com.pluscubed.crush;
+package com.pluscubed.crush.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

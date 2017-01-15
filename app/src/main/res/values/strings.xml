@@ -3,4 +3,8 @@
     <string name="auth_failed">Authentication Failed</string>
     <string name="error_occurred">Error Occurred</string>
     <string name="email_sent">An anonymous email has been sent.</string>
+    <string name="anonymous">Anonymously Connected</string>
+    <string name="connected">Match</string>
+    <string name="facebook_friend">Facebook Friend</string>
+    <string name="you_are_matched">You are matched!</string>
 </resources>

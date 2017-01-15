@@ -11,7 +11,8 @@ import com.bluelinelabs.conductor.Conductor;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.facebook.CallbackManager;
-import com.pluscubed.crush.list.ListController;
+import com.pluscubed.crush.list.ChatsController;
+import com.pluscubed.crush.widget.ContentFrameLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         router.addChangeListener(contentView);
 
         if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(new ListController()));
+            router.setRoot(RouterTransaction.with(new ChatsController()));
         }
     }
 

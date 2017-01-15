@@ -51,7 +51,7 @@ public class AddController extends RefWatchingController {
     private Retrofit retrofit;
     private Service service;
 
-    /*private UserAdapter adapter;*/
+    /*private MessageAdapter adapter;*/
 
     public AddController() {
         super();
@@ -80,8 +80,8 @@ public class AddController extends RefWatchingController {
 
     }*/
 
-    /*private void setUsers(List<FbUser> data) {
-        adapter.setUsers(data);
+    /*private void setMessages(List<FbUser> data) {
+        adapter.setMessages(data);
     }*/
 
 //    private Observable<JSONObject> searchJson(String text){
@@ -121,7 +121,7 @@ public class AddController extends RefWatchingController {
 
        /* LinearLayoutManager layout = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layout);
-        adapter = new UserAdapter(getActivity());
+        adapter = new MessageAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
@@ -153,7 +153,7 @@ public class AddController extends RefWatchingController {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fbSearchResponse -> {
-                    setUsers(fbSearchResponse.data);
+                    setMessages(fbSearchResponse.data);
 
                     Timber.d(fbSearchResponse.toString());
                 });*/

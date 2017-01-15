@@ -28,8 +28,11 @@ public class ChatHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.list_item_message_secondary1)
     TextView secondary;
 
-    public ChatHolder(View itemView) {
+    private ListController controller;
+
+    public ChatHolder(View itemView, ListController controller) {
         super(itemView);
+        this.controller = controller;
         ButterKnife.bind(this, itemView);
         root = itemView;
     }
@@ -67,7 +70,7 @@ public class ChatHolder extends RecyclerView.ViewHolder {
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                controller.onItemClick(getAdapterPosition());
             }
         });
     }

@@ -18,10 +18,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.pluscubed.crush.R;
 import com.pluscubed.crush.add.AddController;
 import com.pluscubed.crush.base.MimicActivityChangeHandler;
 import com.pluscubed.crush.base.RefWatchingController;
+import com.pluscubed.crush.chat.MessageController;
 import com.pluscubed.crush.data.ChatSession;
 import com.pluscubed.crush.login.LoginController;
 
@@ -45,6 +47,8 @@ public class ListController extends RefWatchingController {
     private FirebaseUser user;
     private AccessToken accessToken;
     private boolean needLogin;
+    private Query chatsDatabase;
+    private FirebaseIndexRecyclerAdapter<ChatSession, ChatHolder> adapter;
 
     public ListController() {
         this(null);
@@ -78,8 +82,8 @@ public class ListController extends RefWatchingController {
 
     private void onUserSet() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userChats = database.getReference().child("users").child(user.getUid()).child("chat");
-        DatabaseReference chatsDatabase = database.getReference().child("chat");
+        Query chatsKeys = database.getReference().child("users").child(user.getUid()).child("chat");
+        chatsDatabase = database.getReference().child("chat").orderByChild("timestamp");
 
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
         userRef.child("fbid").setValue(accessToken.getUserId());
@@ -88,11 +92,17 @@ public class ListController extends RefWatchingController {
         userRef.child("picture").setValue(currentProfile.getProfilePictureUri(720, 720).toString());
 
 
-        FirebaseIndexRecyclerAdapter<ChatSession, ChatHolder> adapter = new FirebaseIndexRecyclerAdapter<ChatSession, ChatHolder>(ChatSession.class,
+        adapter = new FirebaseIndexRecyclerAdapter<ChatSession, ChatHolder>(ChatSession.class,
                 R.layout.list_person,
                 ChatHolder.class,
-                userChats, // The Firebase location containing the list of keys to be found in dataRef.
+                chatsKeys,
                 chatsDatabase) {
+
+            @Override
+            public ChatHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = getActivity().getLayoutInflater().inflate(R.layout.list_person, null, false);
+                return new ChatHolder(view, ListController.this);
+            }
 
             @Override
             protected void populateViewHolder(ChatHolder viewHolder, ChatSession model, int position) {
@@ -102,6 +112,7 @@ public class ListController extends RefWatchingController {
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
 
 
@@ -143,5 +154,13 @@ public class ListController extends RefWatchingController {
         } else {
             onUserSet();
         }
+    }
+
+    public void onItemClick(int adapterPosition) {
+        MessageController controller = new MessageController(adapter.getRef(adapterPosition).getKey());
+
+        getRouter().pushController(RouterTransaction.with(controller)
+                .pushChangeHandler(new MimicActivityChangeHandler(getActivity()))
+                .popChangeHandler(new MimicActivityChangeHandler(getActivity())));
     }
 }

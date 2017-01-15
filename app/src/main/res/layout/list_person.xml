@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="88dp">
+
+    <!-- <RelativeLayout
+         android:id="@id/progress_bar_relative"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+         <ProgressBar
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true" />
+     </RelativeLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/list_item_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/list_item_message_text"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:scaleType="center"
+            app:riv_oval="true" />
+
+        <TextView
+            android:id="@+id/list_item_message_topright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:textSize="12sp"
+            tools:text="secondary2" />
+
+
+        <LinearLayout
+            android:id="@id/list_item_message_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/list_item_message_primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="72dp"
+                android:layout_marginStart="72dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                tools:text="secondary2" />
+
+            <TextView
+                android:id="@+id/list_item_message_secondary1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="72dp"
+                android:layout_marginStart="72dp"
+                android:singleLine="true"
+                android:textSize="14sp"
+                tools:text="secondary2" />
+
+            <TextView
+                android:id="@+id/list_item_message_secondary2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="72dp"
+                android:layout_marginStart="72dp"
+                android:singleLine="true"
+                android:textSize="14sp"
+                tools:text="secondary2" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</FrameLayout>

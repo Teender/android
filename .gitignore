@@ -1,5 +1,8 @@
 # Created by https://www.gitignore.io
 
+google-services.json
+private.xml
+
 ### Android ###
 # Built application files
 *.apk

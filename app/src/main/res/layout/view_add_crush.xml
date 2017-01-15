@@ -1,29 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editText"
+    <FrameLayout
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:imeOptions="actionNext"
-        android:inputType="textEmailAddress" />
+        android:layout_height="238dp"
+        android:elevation="4dp">
 
-    <EditText
-        android:id="@+id/message"
+        <TextView
+            android:padding="16dp"
+            android:layout_marginBottom="36dp"
+            android:layout_gravity="bottom"
+            android:text="Add Crush"
+            android:textSize="48sp"
+            android:textColor="?android:textColorPrimaryInverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:padding="16dp"
+            android:layout_gravity="bottom"
+            android:text="You must be Facebook friends!\nOr the chat will not start."
+            android:textSize="14sp"
+            android:textColor="?android:textColorPrimaryInverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_margin="14dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter a message"
-        android:minLines="4" />
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
+            <EditText
+                android:background="@null"
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/md_divider_black"/>
+
+    <FrameLayout
+        android:layout_margin="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:background="@null"
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="Enter a message"
+                android:minLines="4" />
+
+        </android.support.design.widget.TextInputLayout>
+    </FrameLayout>
+
+
+   <!-- <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="" />-->
+
+
+    <!--<Button
         android:id="@+id/send"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crush / send invite" />
+        android:textColor="?android:textColorPrimaryInverse"
+        android:text="❤ Get crushing ❤" />-->
 
     <!--<android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -34,3 +104,15 @@
         android:layout_height="match_parent"/>-->
 
 </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="190dp"
+        android:layout_gravity="end"
+        app:useCompatPadding="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_send_black_24dp"/>
+
+</FrameLayout>

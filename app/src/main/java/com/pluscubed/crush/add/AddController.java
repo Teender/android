@@ -2,6 +2,7 @@ package com.pluscubed.crush.add;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class AddController extends RefWatchingController {
     @BindView(R.id.message)
     EditText message;
     @BindView(R.id.send)
-    Button send;
+    FloatingActionButton send;
     /*@BindView(R.id.recyclerview)
     RecyclerView recyclerView;*/
 

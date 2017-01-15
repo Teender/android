@@ -12,7 +12,10 @@
         android:background="?colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:contentInsetStart="16dp" />
+        app:contentInsetLeft="16dp"
+        app:contentInsetStart="16dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@null" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"

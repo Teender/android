@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -194,7 +193,7 @@ public class AddController extends RefWatchingController {
             Util.queryFirebase(query)
                     .subscribeOn(Schedulers.io())
                     .flatMap(dataSnapshot -> {
-                        if (dataSnapshot.exists()) {
+                        if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                             DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
                             otherUser[0] = snapshot.getValue(DbUser.class);
                             otherUser[0].dbId = snapshot.getKey();
@@ -231,6 +230,16 @@ public class AddController extends RefWatchingController {
                     .subscribe(new Subscriber<Object>() {
                         @Override
                         public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(Object o) {
                             if (found[0]) {
                                 Snackbar.make(getView(), R.string.you_are_matched, Snackbar.LENGTH_SHORT).show();
                                 getRouter().popToRoot();
@@ -259,16 +268,6 @@ public class AddController extends RefWatchingController {
                                 getRouter().popToRoot();
                             }
                         }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(Object o) {
-
-                        }
                     });
 
         } else {
@@ -283,7 +282,7 @@ public class AddController extends RefWatchingController {
                 .negativeText("Cancel")
                 .onPositive((dialog1, which) -> {
                     actualSendAnonymousEmail(email, text);
-                });
+                }).show();
     }
 
     private void actualSendAnonymousEmail(String email, String text) {

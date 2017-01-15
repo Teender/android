@@ -133,7 +133,6 @@ public class LoginController extends RefWatchingController {
                         }
 
                         email = dataSnapshot.child("email").getValue(String.class);
-
                         List<FbUser> myFbFriends = queryFriends(token).toBlocking().first();
 
                         for (DataSnapshot chat : dataSnapshot.child("chat").getChildren()) {
